@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from 'native-base';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-
-import OneSignal, { NotificationReceivedEvent, OSNotification } from "react-native-onesignal";
-
-import { Notification } from '../components/Notification';
+import OneSignal, { NotificationReceivedEvent, OSNotification } from 'react-native-onesignal';
 
 import { AppRoutes } from './app.routes';
+import { Notification } from '../components/Notification';
 
 const linking = {
-  prefixes: ["com.igniteshoesapp://"," igniteshoesapp://", "exp+igniteshoesapp://" ],
+  prefixes: ['igniteshoesapp://','com.igniteshoesapp://'],
   config: {
     screens: {
       details: {
@@ -23,32 +21,35 @@ const linking = {
 }
 
 export function Routes() {
-  const [notification, setNotification] = useState<OSNotification>();
+  const [notification, setNotification] =  useState<OSNotification>();
+
   const { colors } = useTheme();
 
   const theme = DefaultTheme;
   theme.colors.background = colors.gray[700];
-
+  
   useEffect(() => {
     const unsubscribe = OneSignal
-    .setNotificationWillShowInForegroundHandler((NotificationReceivedEvent: NotificationReceivedEvent) => {
-      const resp = NotificationReceivedEvent.getNotification();
+    .setNotificationWillShowInForegroundHandler((notificationReceivedEvent: NotificationReceivedEvent) => {
+      const response = notificationReceivedEvent.getNotification();
 
-      setNotification(resp);
-    });
+      setNotification(response);
+    })
 
     return () => unsubscribe;
-   
-  }, [])
+
+  },[])
 
   return (
     <NavigationContainer theme={theme} linking={linking}>
       <AppRoutes />
-
       {
-        notification?.title && (<Notification data={notification} onClose={() => {setNotification(undefined)}}/>)
+        notification?.title &&
+        <Notification 
+          data={notification} 
+          onClose={() => setNotification(undefined)} 
+        />
       }
-      
     </NavigationContainer>
   );
 }
