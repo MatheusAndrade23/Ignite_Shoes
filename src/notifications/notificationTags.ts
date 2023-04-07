@@ -12,3 +12,9 @@ export const tagUserEmailCreate = (email: string) => {
 export const tagUserEmailDelete = (email: string) => {
     OneSignal.deleteTag("user_email")
 }
+
+// Deixar as tags dinâmicas
+
+export const tagUserInfoCreate = () => {
+    OneSignal.sendTags({"user_name" : "matheus", "user_email": "matheusandrade.ma2003@gmail.com"})
+}
