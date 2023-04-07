@@ -14,7 +14,7 @@ const linking = {
     screens: {
       details: {
         path: 'details/:productId',
-        pase: {
+        parse: {
           productId: (productId: string) => productId
         }
       }
