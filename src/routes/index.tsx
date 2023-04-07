@@ -8,6 +8,20 @@ import { Notification } from '../components/Notification';
 
 import { AppRoutes } from './app.routes';
 
+const linking = {
+  prefixes: ["com.igniteshoesapp://"," igniteshoesapp://", "exp+igniteshoesapp://" ],
+  config: {
+    screens: {
+      details: {
+        path: 'details/:productId',
+        pase: {
+          productId: (productId: string) => productId
+        }
+      }
+    }
+  }
+}
+
 export function Routes() {
   const [notification, setNotification] = useState<OSNotification>();
   const { colors } = useTheme();
@@ -28,7 +42,7 @@ export function Routes() {
   }, [])
 
   return (
-    <NavigationContainer theme={theme}>
+    <NavigationContainer theme={theme} linking={linking}>
       <AppRoutes />
 
       {
