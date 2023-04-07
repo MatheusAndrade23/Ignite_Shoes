@@ -30,8 +30,19 @@ export default function App() {
 
   // Monitora o clique na notificação quando o app está em segundo plano
   useEffect(() => {
-    const unsubscribe = OneSignal.setNotificationOpenedHandler(() => {
-      console.log('Nofitifcação aberta!')
+    const unsubscribe = OneSignal.setNotificationOpenedHandler((response) => {
+
+     // Se houve o clique em um dos botões da notificação, faz uma ação específica 
+      const { actionId } = response.action as any;
+
+      switch (actionId) {
+        case '1':
+          return console.log('Ver todas!');
+        case '2':
+          return console.log('Ver pedido!');
+        default:
+          return console.log('Não houve nenhuma ação!');
+      }
     })
 
     return () => unsubscribe
