@@ -19,6 +19,7 @@ OneSignal.promptForPushNotificationsWithUserResponse();
 
 // Criar Tags para o usuário
 import { tagUserInfoCreate } from './src/notifications/notificationTags';
+import { useEffect } from 'react';
 
 
 export default function App() {
@@ -27,7 +28,14 @@ export default function App() {
 
   tagUserInfoCreate()
 
- 
+  // Monitora o clique na notificação quando o app está em segundo plano
+  useEffect(() => {
+    const unsubscribe = OneSignal.setNotificationOpenedHandler(() => {
+      console.log('Nofitifcação aberta!')
+    })
+
+    return () => unsubscribe
+  }, [])
 
   return (
     <NativeBaseProvider theme={THEME}>
