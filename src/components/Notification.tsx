@@ -9,11 +9,6 @@ type Props = {
   onClose: () => void;
 }
 
-type additionalDataProps = {
-  route?: 'details';
-  product_id?: string;
-}
-
 export function Notification({ data, onClose }: Props) {
 
   const handleOnPress = () => {
